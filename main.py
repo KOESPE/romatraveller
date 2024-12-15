@@ -7,11 +7,14 @@ from handlers.admin import admin_router
 from handlers.users import user_router
 from keyboards.admin import admin_kb
 
+from aiogram.client.session.aiohttp import AiohttpSession
 
 async def main():
     config: Config = load_config()
 
-    bot = Bot(token=config.tg_bot.token)
+    session = AiohttpSession(proxy="http://proxy.server:3128")
+
+    bot = Bot(token=config.tg_bot.token, session=session)
     dp = Dispatcher()
     dp.include_router(admin_router)
     dp.include_routers(user_router)
